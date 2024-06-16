@@ -7,6 +7,8 @@ spec:
   selector:
     matchLabels:
       app: cool-nodejs-app
+    strategy:
+    type: RollingUpdate
   template:
     metadata:
       labels:
