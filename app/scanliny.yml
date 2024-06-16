@@ -7,8 +7,8 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: cool-nodejs-app
-  minReplicas: 2
-  maxReplicas: 3
+  minReplicas: 4
+  maxReplicas: 10
   metrics:
     - type: Resource
       resource:
