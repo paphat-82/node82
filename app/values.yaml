@@ -8,8 +8,8 @@ revisionHistoryLimit: 1
 deploymentStrategy:
   type: Recreate
   
-image: docker.io/paphat82/node:latest
-
+image: docker.io/paphat82/node
+tag: "latest"
 containers:
   containerPort: 3000
 
