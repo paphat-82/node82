@@ -8,8 +8,11 @@ revisionHistoryLimit: 1
 deploymentStrategy:
   type: Recreate
   
-image: docker.io/paphat82/node
-tag: "latest"
+#image: docker.io/paphat82/node
+#tag: "latest"
+image : # Missing colon after key
+  repository: docker.io/paphat82/node
+  tag: latest
 containers:
   containerPort: 3000
 
