@@ -13,55 +13,12 @@ image:
   tag: "latest"
 
 containers:
-  containerPort: 8000
-  command:
-    - /bin/sh
-    - -c
-    - |-
-      gunicorn -b 0.0.0.0 --workers 2 zenn_core.wsgi-uat --timeout 600
+  containerPort: 3000
+
   env:
-    - name: ENGINE
-      value: "mssql"
-    - name: DB_DRIVER
-      value: "ODBC Driver 17 for SQL Server"
+
     - name: TZ
       value: "Asia/Bangkok"
-    - name: PDF_HOST
-      value: "https://pea-restpdf.bifrost.asia"
-    - name: HSM_HOST
-      value: "https://pea-resthsm.bifrost.asia"
-    - name: SMF_HOST
-      value: "https://pea-smartflowapi.bifrost.asia"
-    - name: MASTER_ALIAS
-      value: "KEK_PEA"
-    - name: MINIO_BUCKET
-      value: "pea-bucket"
-    - name: MINIO_ROOT_PATH
-      value: "zenn"
-    - name: MINIO_ROOT_SECURE
-      value: "0"
-    - name: MINIO_ROOT_SECURE_HTTPS
-      value: "1"
-    - name: COMPANY_CODE
-      value: "COMP1001"
-    - name: SFTP_STORAGE_PATH
-      value: "sftp-pea"
-    - name: EMP_ADMIN
-      value: "e0000000"
-    - name: SMTP_SENDER
-      value: "no-reply@brainergy.digital"
-    - name: SMTP_HEADER_MAIL
-      value: "[Dev] DigiSign | ระบบลงนามเอกสารด้วยลายมือดิจิทัล"
-    - name: PDF_REASON_TEXT
-      value: PEA DigiSign |
-    - name: URL_OCSP_TEST_TDID
-      value: http://test.thaidigitalid.com/tdidcag3ocsp
-    - name: URL_OCSP_TEST_INET
-      value: http://203.154.59.134/OCSP/ocsp
-    - name: URL_OCSP_TDID
-      value: http://www.thaidigitalid.com/tdidcag3ocsp
-    - name: URL_OCSP_INET
-      value: http://ocsp.inet.co.th/OCSP/ocsp
 
   resources: 
     limits:
@@ -77,7 +34,7 @@ containers:
 service:
   enabled: true
   type: ClusterIP
-  port: 8000
+  port: 3000
 
 volumes:
   create_PV: false
@@ -125,32 +82,3 @@ serviceAccount:
   annotations: {}
   name: ""
 
-ingress:
-  enabled: true
-  className: "alb"
-  annotations:
-    alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}]'
-    alb.ingress.kubernetes.io/load-balancer-name: 'smarttax-dev-k8s-v2'
-    alb.ingress.kubernetes.io/scheme: internet-facing
-    alb.ingress.kubernetes.io/group.name: smarttax-dev-k8s-v2
-    alb.ingress.kubernetes.io/ssl-redirect: '443'
-    alb.ingress.kubernetes.io/healthcheck-interval-seconds: '60'
-    alb.ingress.kubernetes.io/target-type: ip
-  hosts:
-    - host: pea-zennapi.bifrost.asia
-      paths:
-        - path: /
-          pathType: Prefix
-
-nodeSelector: {}
-
-tolerations: []
-
-affinity:
-  nodeAffinity:
-    requiredDuringSchedulingIgnoredDuringExecution:
-      nodeSelectorTerms:
-        - matchExpressions:
-          - key: "topology.kubernetes.io/zone"
-            operator: "In"
-            values: ["ap-southeast-1b", "ap-southeast-1c"]
