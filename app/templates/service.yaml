@@ -1,0 +1,21 @@
+{{- if .Values.service.enabled -}}
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: {{ .Values.namespace }}
+  name: {{ .Values.fullname }}-svc
+  {{- with .Values.labels }}
+  labels:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: {{ .Values.containers.containerPort }}
+      protocol: TCP
+  {{- with .Values.labels }}
+  selector:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+{{- end }}
