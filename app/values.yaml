@@ -1,15 +1,15 @@
-fullname: pea-zenn
+fullname: cool-nodejs-app
 replicaCount: 1
-namespace: pea
+namespace: node
 labels:
-  app: pea-zenn
+  app: cool-nodejs-app
 revisionHistoryLimit: 1
 
 deploymentStrategy:
   type: Recreate
   
 image:
-  repository: 252322529613.dkr.ecr.ap-southeast-1.amazonaws.com/brainergy/pea-zenn
+  repository: docker.io/paphat82/node
   tag: "latest"
 
 containers:
