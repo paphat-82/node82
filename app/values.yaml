@@ -1,6 +1,6 @@
 fullname: cool-nodejs-app
 replicaCount: 1
-namespace: node
+namespace: node82
 labels:
   app: cool-nodejs-app
 revisionHistoryLimit: 1
