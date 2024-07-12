@@ -1,5 +1,5 @@
 fullname: cool-nodejs-app
-replicaCount: 4
+replicaCount: 1
 namespace: node82
 labels:
   app: cool-nodejs-app
