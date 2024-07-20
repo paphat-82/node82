@@ -1,5 +1,5 @@
 fullname: cool-nodejs-app
-replicaCount: 1
+replicaCount: 2
 namespace: node82
 labels:
   app: cool-nodejs-app
@@ -11,8 +11,8 @@ deploymentStrategy:
 
 image : # Missing colon after key
   repository: docker.io/paphat82/node
- tag: latest
- # tag: v3
+ # tag: latest
+  tag: v3
 containers:
   containerPort: 3000
 
