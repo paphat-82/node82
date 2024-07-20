@@ -11,8 +11,8 @@ deploymentStrategy:
 
 image : # Missing colon after key
   repository: docker.io/paphat82/node
- # tag: latest
-  tag: v3
+  #tag: latest
+  tag: v2
 containers:
   containerPort: 3000
 
