@@ -6,7 +6,7 @@ const server = http.createServer((req, res) => {
   // Write a response header
   res.writeHead(200, {'Content-Type': 'text/plain'});
   // Write a response body
-  res.end('welcome Thailand v3!\n');
+  res.end('welcome Thailand v2!\n');
 });
 
 // Listen on port 3000
