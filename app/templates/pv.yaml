@@ -1,0 +1,14 @@
+{{- if .Values.volumes.create_PV -}}
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  {{- with .Values.labels }}
+  labels:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  name: {{ .Values.fullname }}-pv
+{{- with .Values.volumes.PersistentVolumetemplate }}
+spec:
+  {{- toYaml . | nindent 2 }}
+{{- end }}
+{{- end }}

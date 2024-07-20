@@ -1,0 +1,15 @@
+{{- if .Values.volumes.create_PVC -}}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  {{- with .Values.labels }}
+  labels:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  name: {{ .Values.fullname }}-pvc
+  namespace: {{ .Values.namespace }}
+{{- with .Values.volumes.PersistentVolumeClaimtemplate }}
+spec:
+  {{- toYaml . | nindent 2 }}
+{{- end }}
+{{- end }}
