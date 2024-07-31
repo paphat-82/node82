@@ -1,7 +1,6 @@
 # Use an existing image as a base
 FROM node:14
-
-# Set the working directory
+RUN apt-get update   # Set the working directory
 WORKDIR /usr/src/app
 
 # Copy the app.js file
