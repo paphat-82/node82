@@ -1,6 +1,6 @@
 # Use an existing image as a base
 FROM node:14
-RUN apk update    # Set the working directory
+
 WORKDIR /usr/src/app
 
 # Copy the app.js file
