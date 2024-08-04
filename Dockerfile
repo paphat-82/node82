@@ -4,7 +4,6 @@ FROM node:14
 # Set the working directory
 WORKDIR /usr/src/app
 
-# Update package lists and install build-essential without recommended packages
 RUN apt-get update && \
     apt-get install -y --no-install-recommends build-essential && \
     apt-get clean && \
