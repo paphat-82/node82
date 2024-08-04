@@ -4,9 +4,8 @@ FROM node:14
 # Set the working directory
 WORKDIR /usr/src/app
 
-# Update and install curl
 RUN apt-get update && \
-    apt-get install -y curl && \
+    apt-get install -y build-essential && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
     
