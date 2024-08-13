@@ -2,65 +2,17 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: nginx-conf
+  namespace: momo
 data:
   nginx.conf: |
-    user nginx;
-    worker_processes  3;
-    error_log  /var/log/nginx/error.log;
-    events {
-      worker_connections  10240;
-    }
-    http {
-      log_format  main
-              'remote_addr:$remote_addr\t'
-              'time_local:$time_local\t'
-              'method:$request_method\t'
-              'uri:$request_uri\t'
-              'host:$host\t'
-              'status:$status\t'
-              'bytes_sent:$body_bytes_sent\t'
-              'referer:$http_referer\t'
-              'useragent:$http_user_agent\t'
-              'forwardedfor:$http_x_forwarded_for\t'
-              'request_time:$request_time';
-
-      access_log /var/log/nginx/access.log main;
-
-      server {
-          listen       80;
-          server_name  _;
-
-          location / {
-              root   html;
-              index  index.html index.htm;
-          }
-      }
-      include /etc/nginx/virtualhost/virtualhost.conf;
-    }
-  virtualhost.conf: |
-    upstream app {
-      server localhost:8080;
-      keepalive 1024;
-    }
-
-    server {
-      listen 80 default_server;
-      root /usr/local/app;
-
-      access_log /var/log/nginx/app.access_log main;
-      error_log /var/log/nginx/app.error_log;
-
-      location / {
-        proxy_pass http://app/;
-        proxy_http_version 1.1;
-      }
-    }
+    # Your nginx configuration here
 
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nginx
+  namespace: momo
 spec:
   replicas: 1
   selector:
@@ -77,7 +29,7 @@ spec:
         ports:
         - containerPort: 80
         volumeMounts:
-        - mountPath: /etc/nginx # mount nginx-conf volume to /etc/nginx
+        - mountPath: /etc/nginx
           readOnly: true
           name: nginx-conf
         - mountPath: /var/log/nginx
@@ -85,12 +37,12 @@ spec:
       volumes:
       - name: nginx-conf
         configMap:
-          name: nginx-conf # mount ConfigMap `nginx-conf` to /etc/nginx
+          name: nginx-conf
           items:
             - key: nginx.conf
               path: nginx.conf
             - key: virtualhost.conf
-              path: virtualhost/virtualhost.conf # directory path
+              path: virtualhost/virtualhost.conf
       - name: log
         emptyDir: {}
 
@@ -99,6 +51,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: nginx
+  namespace: momo
 spec:
   type: LoadBalancer
   ports:
