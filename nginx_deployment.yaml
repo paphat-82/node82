@@ -24,7 +24,7 @@ data:
               'forwardedfor:$http_x_forwarded_for\t'
               'request_time:$request_time';
 
-      access_log	/var/log/nginx/access.log main;
+      access_log /var/log/nginx/access.log main;
 
       server {
           listen       80;
@@ -57,12 +57,15 @@ data:
     }
 
 ---
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nginx
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
   template:
     metadata:
       labels:
@@ -74,7 +77,7 @@ spec:
         ports:
         - containerPort: 80
         volumeMounts:
-        - mountPath: /etc/nginx # mount nginx-conf volumn to /etc/nginx
+        - mountPath: /etc/nginx # mount nginx-conf volume to /etc/nginx
           readOnly: true
           name: nginx-conf
         - mountPath: /var/log/nginx
@@ -82,12 +85,12 @@ spec:
       volumes:
       - name: nginx-conf
         configMap:
-          name: nginx-conf # place ConfigMap `nginx-conf` on /etc/nginx
+          name: nginx-conf # mount ConfigMap `nginx-conf` to /etc/nginx
           items:
             - key: nginx.conf
               path: nginx.conf
             - key: virtualhost.conf
-              path: virtualhost/virtualhost.conf # dig directory
+              path: virtualhost/virtualhost.conf # directory path
       - name: log
         emptyDir: {}
 
@@ -103,4 +106,3 @@ spec:
     targetPort: 80
   selector:
     app: nginx
-
