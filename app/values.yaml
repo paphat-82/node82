@@ -6,9 +6,13 @@ labels:
 revisionHistoryLimit: 1
 
 
+#deploymentStrategy:
+#  type: Recreate
 deploymentStrategy:
-  type: Recreate
-  
+   type: RollingUpdate
+   rollingUpdate:
+    maxSurge: 1
+    maxUnavailable: 1  
   
 
 image : # Missing colon after key
